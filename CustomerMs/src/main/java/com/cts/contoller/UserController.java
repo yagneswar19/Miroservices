@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.cts.dto.ClaimRequest;
 import com.cts.dto.OfferDto;
 import com.cts.dto.RedeemRequest;
 import com.cts.entity.Redemption;
 import com.cts.entity.Transaction;
 import com.cts.service.Pointsservice;
+
+import com.cts.entity.CustomerProfile;
+
+import feign.Response;
 @CrossOrigin(origins = "http://localhost:8173")
 @RestController
 @RequestMapping("/api/users")
@@ -27,6 +32,13 @@ public class UserController {
     @Autowired
     private Pointsservice pointService;
 
+
+
+    @GetMapping("/Customer/{id}")
+    public ResponseEntity<CustomerProfile> getCustomer(@PathVariable Long id) {
+        CustomerProfile customerProfile = pointService.getCutomerId(id);
+        return ResponseEntity.ok(customerProfile);
+    }
     @PostMapping("/redeem/offer/{offerId}/user/{userId}")
     public ResponseEntity<Redemption> redeemOffer(@RequestBody RedeemRequest redeemRequest,
             @PathVariable Long userId

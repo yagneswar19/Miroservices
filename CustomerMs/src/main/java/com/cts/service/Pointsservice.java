@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import com.cts.repository.CustomerProfilerepository;
+
+import com.cts.entity.CustomerProfile;
 import com.cts.feign.PromotionFeignClient;
 @Service
 public class Pointsservice {
@@ -31,68 +34,15 @@ public class Pointsservice {
     @Autowired
     private RedemptionRepository redemptionRepository;
 
-    /**
-     * Redeem an offer for a user
-     * Deducts points from user's profile and creates a redemption record
-     */
-    // @Transactional
-    // public Redemption redeemOffer(Long userId, RedeemRequest request) {
-    //     // Fetch user
-    //     User user = userRepository.findById(userId)
-    //         .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        
-    //     // Fetch offer
-    //     Offers offer = offerRepository.findById(request.getOfferId())
-    //         .orElseThrow(() -> new RuntimeException("Offer not found with id: " + request.getOfferId()));
-        
-    //     // Check if offer is active
-    //     if (!offer.isActive()) {
-    //         throw new RuntimeException("Offer is not active");
-    //     }
-        
-    //     // Get customer profile
-    //     CustomerProfile profile = user.getProfile();
-    //     if (profile == null) {
-    //         throw new RuntimeException("Customer profile not found for user: " + userId);
-    //     }
-        
-    //     // Check if user has enough points
-    //     if (profile.getPointsBalance() < offer.getCostPoints()) {
-    //         throw new RuntimeException("Insufficient points. Required: " + offer.getCostPoints() 
-    //             + ", Available: " + profile.getPointsBalance());
-    //     }
-        
-    //     // Deduct points from profile
-    //     profile.setPointsBalance(profile.getPointsBalance() - offer.getCostPoints());
-    //     userRepository.save(user);
-        
-    //     Transaction transaction = new Transaction();
-    //     transaction.setExternalId("RED-" + System.currentTimeMillis());
-    //     transaction.setType("REDEMPTION");
-    //     transaction.setPointsEarned(0);
-    //     transaction.setPointsRedeemed(offer.getCostPoints());
-    //     transaction.setStore(request.getStore());
-    //     transaction.setDate(LocalDate.now());
-    //     transaction.setNote(offer.getTitle());
-    //     transaction.setUser(user);
-        
-    //     transactionRepository.save(transaction);
+    @Autowired
+    private CustomerProfilerepository custrepo;
 
-    //     // Create redemption record
-    //     Redemption redemption = new Redemption();
-    //     redemption.setTransactionId(transaction.getExternalId());
-    //     redemption.setConfirmationCode("CONF-" + System.currentTimeMillis());
-    //     redemption.setDate(LocalDate.now());
-    //     redemption.setCostPoints(offer.getCostPoints());
-    //     redemption.setOfferTitle(offer.getTitle());
-    //     redemption.setStore(request.getStore());
-    //     redemption.setUser(user);
-
-    //     redemptionRepository.save(redemption);
-    //     userRepository.save(user);
-
-    //     return redemption;
-    // }
+        public CustomerProfile getCutomerId(Long id)
+        {
+            return custrepo.findById(id).orElseThrow(() -> new RuntimeException("Customer profile not found for id: " + id));
+        }
+   //CutomerProfile based on id
+   
 
 
     /**
