@@ -12,6 +12,15 @@ public class OfferDto {
     private LocalDate endDate;
     private String tierLevel;
     private String imageUrl;
+    private boolean active;
+
+     public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     // Getters and Setters
     public Long getId() { return id; }

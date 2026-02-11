@@ -1,12 +1,14 @@
 package com.example.Offers.service; 
-import com.example.Offers.model.Promotion;
-import com.example.Offers.model.Analytics;
-import com.example.Offers.repository.PromotionRepository;
-import com.example.Offers.repository.AnalyticsRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
+import com.example.Offers.model.Analytics;
+import com.example.Offers.model.Promotion;
+import com.example.Offers.repository.AnalyticsRepository;
+import com.example.Offers.repository.PromotionRepository;
 
 @Service
 public class PromotionService {
@@ -46,5 +48,10 @@ public class PromotionService {
     // Added method to fetch a promotion by ID
     public Promotion getPromotionById(Long id) {
         return promotionRepo.findById(id).orElse(null);
+    }
+
+    // Added method to delete a promotion by ID
+    public void deletePromotion(Long id) {
+        promotionRepo.deleteById(id);
     }
 }

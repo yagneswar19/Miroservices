@@ -24,11 +24,18 @@ public class Promotion {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    // This ensures JSON "targetTier" maps to Java "tierLevel"
-  
+ private boolean active;
     private String tierLevel;
 
     private String imageUrl;
+
+    public boolean   getActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     // Getters and Setters
     public Long getId() {

@@ -73,4 +73,13 @@ public class UserController {
         return ResponseEntity.ok(redemptions);
     }
 
+
+
+    // Admin endpoint to view all redemptions in the system
+    @GetMapping("/redemptions")
+    public ResponseEntity<List<Redemption>> getAllRedemptions() {
+        List<Redemption> redemptions = pointService.getAllRedemptions();
+        return ResponseEntity.ok(redemptions);
+    }
+
 }

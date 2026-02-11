@@ -110,7 +110,7 @@ public class Pointsservice {
 
         // 5. Use a standard loop to filter
         for (OfferDto offer : allOffers) {
-            if (offer.getTierLevel() != null) {
+            if (offer.getTierLevel() != null  && offer.getActive()) { // Check if tier level is not null and offer is active
                 String offerTier = offer.getTierLevel().toUpperCase();
                 
                 // Check if the offer's tier is within the user's allowed list
@@ -191,6 +191,11 @@ public class Pointsservice {
 
 
 
+
+    /// Get all redemptions in the system (for admin view)
+     public List<Redemption> getAllRedemptions() {
+        return redemptionRepository.findAll();
+    }
     /**
      * Get all offers available for a specific tier
      */
