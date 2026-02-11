@@ -24,7 +24,8 @@ public class Promotion {
     private LocalDate startDate;
     private LocalDate endDate;
 
- private boolean active;
+ @Column(name = "active", nullable = false)
+    private boolean active;
     private String tierLevel;
 
     private String imageUrl;
