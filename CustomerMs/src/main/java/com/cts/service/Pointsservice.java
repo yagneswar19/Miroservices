@@ -1,26 +1,34 @@
 package com.cts.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.cts.repository.TransactionRepository;
-import com.cts.repository.UserRepository;
-import com.cts.repository.RedemptionRepository;
-import com.cts.entity.User;
-import com.cts.entity.Redemption;
-import com.cts.entity.Transaction;
-import com.cts.entity.CustomerProfile;
-import com.cts.dto.*;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.cts.repository.CustomerProfilerepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.cts.dto.ClaimRequest;
+import com.cts.dto.OfferDto;
+import com.cts.dto.RedeemRequest;
 import com.cts.entity.CustomerProfile;
+import com.cts.entity.Redemption;
+import com.cts.entity.Transaction;
+import com.cts.entity.User;
 import com.cts.feign.PromotionFeignClient;
+import com.cts.repository.CustomerProfilerepository;
+import com.cts.repository.RedemptionRepository;
+import com.cts.repository.TransactionRepository;
+import com.cts.repository.UserRepository;
+import com.cts.dto.RegisterRequest; 
 @Service
 public class Pointsservice {
+
+    // Define a constant for initial points assigned to new users normally based on thhe purchase value
+    //  we assign points but for now we are assigning a default value so for
+    //  1000 rs purchase we are assigning
+    //  100 points to the user
+    public static final int INITIAL_POINTS = 1000; // Starting points for new users
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -36,12 +44,37 @@ public class Pointsservice {
 
     @Autowired
     private CustomerProfilerepository custrepo;
-
+ //CutomerProfile based on id
         public CustomerProfile getCutomerId(Long id)
         {
             return custrepo.findById(id).orElseThrow(() -> new RuntimeException("Customer profile not found for id: " + id));
         }
-   //CutomerProfile based on id
+        // Register a new user and create an associated customer profile
+    @Transactional
+    public CustomerProfile registerUser(RegisterRequest registerRequest) {
+         User user = new User();
+        user.setName(registerRequest.getName());
+        user.setEmail(registerRequest.getEmail());
+        user.setPhone(registerRequest.getPhone());
+        user.setPassword(registerRequest.getPassword());
+        user.setRole(registerRequest.getRole());
+            userRepository.save(user);
+       // Default tier for new users
+        
+     
+        
+        // Create a CustomerProfile linked to the saved user
+       CustomerProfile profile = new CustomerProfile();
+        profile.setLoyaltyTier("Bronze");
+        profile.setPointsBalance(INITIAL_POINTS);
+        profile.setLifetimePoints(INITIAL_POINTS); // Initialize lifetime points with starting balance
+        profile.setPreferences(registerRequest.getPreferences());
+        profile.setCommunication(registerRequest.getCommunication());
+        profile.setUser(user);
+        custrepo.save(profile);
+        return profile;
+    }
+  
    
 
 

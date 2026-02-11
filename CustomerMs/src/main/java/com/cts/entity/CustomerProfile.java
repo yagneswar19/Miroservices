@@ -2,12 +2,14 @@ package com.cts.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,14 +20,22 @@ public class CustomerProfile {
     private Long id;
     private String loyaltyTier;
     private int pointsBalance;
+    private int lifetimePoints;
     private LocalDate nextExpiry;
     private String preferences; // CSV of categories
     private String communication; // Email/SMS/WhatsApp
     @OneToOne
     @JoinColumn(name = "user_id")
+   
     private User user;
 
     // Getters and Setters
+    public int getLifetimePoints() {
+        return lifetimePoints;
+    }
+    public void setLifetimePoints(int lifetimePoints) {
+        this.lifetimePoints = lifetimePoints;
+    }
     public Long getId() {
         return id;
     }

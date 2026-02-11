@@ -10,7 +10,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="User")
 public class User {
@@ -21,9 +21,9 @@ public class User {
     private String email;
     private String phone;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role; // ADMIN or USER
+   String role; // ADMIN or USER
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private CustomerProfile profile;
     // Getters and Setters
     public Long getId() {   
@@ -56,10 +56,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
     public CustomerProfile getProfile() {
@@ -70,7 +70,7 @@ public class User {
     }
        public User() {
        }
-       public User(String name, String email, String phone, String password, Role role) {
+       public User(String name, String email, String phone, String password, String role) {
            this.name = name;
            this.email = email;
            this.phone = phone;
